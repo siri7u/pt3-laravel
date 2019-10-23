@@ -4,8 +4,11 @@
 
 @section('content')
 
+<div class="container">
 
-<h1>zaaaaa</h1>
+<h1>Test2</h1>
+</div>
+
 
 
 

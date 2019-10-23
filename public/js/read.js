@@ -150,5 +150,8 @@ function renderChart(data, labels, name) {
                 data: data,
             }]
         },
+        label: "alt",
     });
+    Chart.defaults.global.legend.display = false;
+    Chart.defaults.global.tooltips.enabled = false;
 }
