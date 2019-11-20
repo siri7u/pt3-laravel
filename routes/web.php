@@ -19,14 +19,23 @@ Route::get('/tests1', function () {
     return view('tests1');
 });
 
+Route::get('tests1', 'tests1UploadController@tests1Upload')->name('tests1.upload');
+Route::post('tests1', 'tests1UploadController@tests1UploadPost')->name('tests1.upload.post');
+
+
 
 Route::get('/tests2', function () {
     return view('tests2');
 });
 
+Route::get('user/{id}', function ($id) {
+    return 'User '.$id;
+});
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
 
 

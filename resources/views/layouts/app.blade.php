@@ -70,7 +70,7 @@
 
                             <!-- Affichage nom navbar -->
                             <li class="nav-item">
-                                    <a id="navbar" class="nav-link">
+                                    <a id="navbar" class="nav-link" href="{{ route('home') }}">
                                         {{ Auth::user()->name }}</span>
                                     </a>      
                             </li>

@@ -181,7 +181,7 @@
             <div class="col-sm">
                 <div class="card border-primary mb-3" style="max-width: 40rem; min-height: 100%; height: 100%;">
                     <div class="card-header">
-                        <h4 class="card-title">1</h4>
+                        <h4 class="card-title"></h4>
                         <div class="container">
                             <canvas id="chart2"></canvas>
                         </div>
@@ -191,7 +191,7 @@
             <div class="col-sm">
                 <div class="card border-primary mb-3" style="max-width: 40rem; min-height: 100%; height: 100%;">
                     <div class="card-header">
-                        <h4 class="card-title">2</h4>
+                        <h4 class="card-title"></h4>
                         <div class="container">
                             <canvas id="chart2"></canvas>
                         </div>
