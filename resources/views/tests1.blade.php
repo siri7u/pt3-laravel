@@ -2,12 +2,13 @@
 
 <head>
     <!--<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="styles/bootstrap.min.css
-    <script type="text/javascript" src="scripts/bootstrap-filestyle.min.js"></script>
-    ">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script> -->
+    
+{{--         <link rel="stylesheet" href="styles/bootstrap.min.css">
+    <script type="text/javascript" src="scripts/bootstrap-filestyle.min.js"></script> --}}
+    
 
-    -->
+   
     <title>PT3</title>
     <script src="{{ asset('js/afficheStats.js')}}"></script>
     <script src="{{ asset('js/afficheParcours.js')}}"></script>
@@ -23,20 +24,16 @@
 
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
 
-    <style>
-        #map {
-            height: 400px;
-        }
-    </style>
+
 </head>
 
 @section('content')
 
+
 <div class="container">
 
     <div class="panel panel-primary">
-        <div class="panel-heading">
-            <h2>Formulaire laravel</h2></div>
+
         <div class="panel-body">
 
             @if ($message = Session::get('success'))
@@ -56,7 +53,7 @@
             </div>
             @endif
             <p></p>
-            <form action="{{ route('tests1.upload.post') }}" method="POST" enctype="multipart/form-data">
+            {{-- <form action="{{ route('tests1.upload.post') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
 
@@ -69,83 +66,60 @@
                     </div>
 
                 </div>
-            </form>
+            </form> --}}
 
-            <!-- si aucun fichier envoyé, alors on affiche un map vide-->
+            {{-- <div class="bootstrap-filestyle input-group">
+                    <form action="{{ route('tests1.upload.post') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <input type="file" name="file" id="input04" tabindex="-1" style="position: absolute; clip: rect(0px, 0px, 0px, 0px);">
+
+                    <span class="group-span-filestyle input-group-btn" tabindex="0">
+                        <label for="input04" style="margin-bottom: 0;" class="btn btn-secondary ">
+                                <span class="iconify" data-icon="oi-folder"> </span>
+                    <span class="buttonText"> Charger un fichier</span>
+                    </label>
+                    </span>
+                    <button type="submit" class="btn btn-success">Upload</button>
+            </div> --}}
+<br>
+            <!-- aucun fichier envoyé, alors on affiche un map vide -->
             @if (empty(Session::get('filecontent')))
-                <div id="map" class></div>
 
-                <script type="application/javascript">
-                    var map = L.map('map').setView([0, 0], 1);
-                    L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=CZhoDNPVBHSRiPKPQGHH', {
-                        tileSize: 512,
-                        zoomOffset: -1,
-                        minZoom: 1,
-                        //attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">© MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a>',
-                        crossOrigin: true
-                    }).addTo(map);
-                </script>
+
+                <div class="container">
+                    <div class="row">
+                            <div class="col" id="map" style="background-color:darkseagreen">
+                                @include('map') {{--map.blade.php--}}
+                            </div>
+                            
+                            <div class="col">
+                                @include('statshtml') {{--map.blade.php--}}   
+                            </div>
+                    </div>
+                </div>
 
             @endif
 
             <!-- si fichier envoyé, alors on affiche le parcours et les graphs-->
             @if ($filecontent = Session::get('filecontent') )
-                <div id="map" class></div>
+            
+                    <div class="row">
+                        <div class="col-sm-8"><div id="map"></div></div>
+                        @include('map') {{--map.blade.php--}}</div>
+                        <div class="col-sm-4">@include('statshtml') {{--map.blade.php--}}</div>
+                </div>
+        
 
                 <script>
-                    var map = L.map('map').setView([0, 0], 1);
-                    L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=CZhoDNPVBHSRiPKPQGHH', {
-                        tileSize: 512,
-                        zoomOffset: -1,
-                        minZoom: 1,
-                        //attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">© MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a>',
-                        crossOrigin: true
-                    }).addTo(map);
-
                     afficheParcours("{{ $filecontent }}",true)
                 </script>
 
                 <br>
                 <br>
 
-                <!-- graph holder -->
-                <div class="container">
-                    <div class="card border-primary mb-3">
-                        <div class="card-header">
-                            <h4 class="card-title">Altitude</h4>
-                            <div class="container">
-                                <canvas id="chart1"></canvas>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm">
-                            <div class="card border-primary mb-3" style="max-width: 40rem; min-height: 100%; height: 100%;">
-                                <div class="card-header">
-                                    <h4 class="card-title">1</h4>
-                                    <div class="container">
-                                        <canvas id="chart2"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm">
-                            <div class="card border-primary mb-3" style="max-width: 40rem; min-height: 100%; height: 100%;">
-                                <div class="card-header">
-                                    <h4 class="card-title">2</h4>
-                                    <div class="container">
-                                        <canvas id="chart3"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- affiche les statistiques -->
                 <script type="application/javascript">
-                    //dans afficheParcours, pas encore de focntion
+                    //pas ici, dans afficheParcours, pas encore de focntion car ça marche pas
                 </script>
             @endif
 
@@ -155,9 +129,8 @@
 
 <!-- affiche les parcours utilisateur -->
 <div class="container">
-    <br>
-    <h1>Mes parcours</h1>
-    <div class="row">
+
+    <div class="row justify-content-start">
     @if (isset($posts))
         <br>
         
@@ -165,14 +138,14 @@
         @foreach ($posts as $post)
 
     
-            {{-- aaa --}}
-            <div class="col">
+            {{-- parcours nom, id image --}}
+            <div class="col-3">
             <br>
-                <div class="card" style="width: 18rem;" id="{{ $post->id}} btn">
+                <div class="card" style="width: 14rem;" id="{{ $post->id}} btn">
                     <div class="card-body">
-                        <h5 class="card-title">ID post {{ $post->id}}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Id createur {{ $post->cid}}</h6>
-                        <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam dolorum ullam iusto sunt, dicta quod consequatur sapiente vero ipsum. Voluptatibus?</p>
+                        <h5 class="card-title">                     ID post {{ $post->id}}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">  Id createur {{ $post->cid}}</h6>
+                        <p class="card-text">                       Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam dolorum ullam iusto sunt, dicta quod consequatur sapiente vero ipsum. Voluptatibus?</p>
                         <a href="#" class="card-link">
 
                             <div id={{ $post->id}} style="background:darkcyan; padding-left: 50px; padding-top: 5px; padding-bottom: 5px; cursor: pointer;">Cliquer ici</div>
@@ -180,70 +153,39 @@
                                     var test = document.getElementById({{ $post->id}});
                                     test.onclick = function() {
 
+                                        $( "#item2").removeClass("active");
+                                        $( "#item1").addClass("active");
+
+                                        if (typeof myChart !== 'undefined') {
+                                            window.myChart.destroy();
+                                        }
+
+                                        if (typeof eles !== 'undefined') {
+                                            var labels = new Array(100);
+                                            renderChart(eles, labels, "chart1");
+                                            $("#type-donne").text("Altitude");
+                                        } else {
+                                            $("#type-donne").text("Aucune donnée");
+                                        }
+
+                                        $("#type-donne").text("Altitude");
                                         afficheParcours("{{ $post->data}}", false)
+                                        
                                     }
                             </script>
                         </a>
                     </div>
                 </div>
-        </div>
+            </div>
 
             {{-- aaa --}}
         @endforeach 
-        <</div>
-    @endif
-    <div class="container">
-        <div class="card border-primary mb-3">
-            <div class="card-header">
-                <h4 class="card-title">Altitude</h4>
-                <div class="container">
-                    <canvas id="chart1"></canvas>
-                </div>
-            </div>
         </div>
-
-        <div class="row">
-            <div class="col-sm">
-                <div class="card border-primary mb-3" style="max-width: 40rem; min-height: 100%; height: 100%;">
-                    <div class="card-header">
-                        <h4 class="card-title">1</h4>
-                        <div class="container">
-                            <canvas id="chart2"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm">
-                <div class="card border-primary mb-3" style="max-width: 40rem; min-height: 100%; height: 100%;">
-                    <div class="card-header">
-                        <h4 class="card-title">2</h4>
-                        <div class="container">
-                            <canvas id="chart3"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+        
+    @endif 
 </div>
-
 </div>
-
-
-
 <br>
 </div>
 
-{{--
-<script type="application/javascript">
-    //génère la map à mettre dans la div map
-    var map = L.map('map').setView([0, 0], 1);
-    L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=CZhoDNPVBHSRiPKPQGHH', {
-        tileSize: 512,
-        zoomOffset: -1,
-        minZoom: 1,
-        //attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">© MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a>',
-        crossOrigin: true
-    }).addTo(map);
-</script> --}} 
 @endsection
