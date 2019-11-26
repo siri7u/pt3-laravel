@@ -103,11 +103,17 @@
             <!-- si fichier envoyé, alors on affiche le parcours et les graphs-->
             @if ($filecontent = Session::get('filecontent') )
             
-                    <div class="row">
-                        <div class="col-sm-8"><div id="map"></div></div>
-                        @include('map') {{--map.blade.php--}}</div>
-                        <div class="col-sm-4">@include('statshtml') {{--map.blade.php--}}</div>
+            <div class="container">
+                <div class="row">
+                        <div class="col" id="map" style="background-color:darkseagreen">
+                            @include('map') {{--map.blade.php--}}
+                        </div>
+                        
+                        <div class="col">
+                            @include('statshtml') {{--map.blade.php--}}   
+                        </div>
                 </div>
+            </div>
         
 
                 <script>

@@ -151,6 +151,8 @@ function renderChart(data, labels, name) {
             labels: new Array(Object.keys(eles).length),
             datasets: [{
                 data: eles,
+                pointHoverRadius: 4,
+                pointHoverBackgroundColor: 'blue'
             }]
         },
 
@@ -173,7 +175,8 @@ function renderChart(data, labels, name) {
             },
             tooltips: {
                 mode: 'index',
-                intersect: false
+                intersect: false,
+                enabled: false
             },
             hover: {
                 mode: 'index',
@@ -206,6 +209,9 @@ function smallerTable(table, x) {
 
 }
 
+//contiendra toutes les sections de parcours
+sectionsList = [];
+
 function clickEvent(c, i) {
     e = i[0];
     console.log("index", e._index)
@@ -216,11 +222,17 @@ function clickEvent(c, i) {
 
     limites.push(e._index);
 
-    section = [];
+    sectionCoords = [];
+    sectionTemps = [];
+    sectionEles = [];
+
     dats = []
 
     //tous les deux clics
     if (Object.keys(limites).length >= 2) {
+
+        //
+        //clearSections();
         console.log("deuxieme clic");
 
         lat = [];
@@ -244,38 +256,41 @@ function clickEvent(c, i) {
 
         for (i = x1; i < x2; i++) {
 
-            section.push(new L.LatLng(latlngs[i][0], latlngs[i][1]));
+
+            sectionCoords.push(new L.LatLng(latlngs[i][0], latlngs[i][1]));
+            //sectionEles.push(eles[i]);
+            //sectionCoords.push(times[i]);
 
         }
 
-        new L.polyline(section, {
+        var s = new L.polyline(sectionCoords, {
             color: 'blue',
             weight: 3,
-            opacity: 0.3,
+            opacity: 1,
             smoothFactor: 1
         }).addTo(map);
+        sectionsList.push(s);
 
         limites = [];
+
+        alert(sectionCoords);
     }
 }
 
 
-function clearPolylines() {
-
+/* function clearPolylines() {
     var i = 0;
-
     map.eachLayer(function(layer) {
-
-
         if (i > 1) {
             if (layer instanceof L.Polyline) {
                 console.log(layer);
                 layer.remove();
-
             }
         }
         i++;
-
-
     });
+} */
+
+function clearSections() {
+    sectionsList.forEach(element => map.removeLayer(element));
 }

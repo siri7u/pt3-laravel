@@ -1,6 +1,6 @@
 <div class="card" style="height: 100%">
 
-    <div class="card-header">
+    <div class="card-header" id="titre-carte">
         <h4 class="card-title" id="type-donne">Aucune donnée</h4>
     </div>
 
@@ -109,14 +109,14 @@ $(document).ready(function() {
     });
 
     $( "#item3" ).click(function() {
-        $( "#item1").removeClass("active");
-        $( "#item2").removeClass("active");
+        /* $( "#item1").removeClass("active");
+        $( "#item2").removeClass("active"); */
 
-        clearPolylines();
+        clearSections();
         
 
         //window.myChart.destroy();
-        myChart.config.data = {
+        /* myChart.config.data = {
             labels: [],
             datasets: [{
                 data: [],
@@ -124,7 +124,7 @@ $(document).ready(function() {
             }]
         }
         myChart.update();
-        $("#type-donne").text("Aucune donnée");
+        $("#type-donne").text("Aucune donnée"); */
     });
 
 
