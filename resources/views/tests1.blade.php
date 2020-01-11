@@ -30,6 +30,8 @@
 @section('content')
 
 
+
+
 <div class="container">
 
     <div class="panel panel-primary">
@@ -53,6 +55,17 @@
             </div>
             @endif
             <p></p>
+
+            <!-- on notifie l'utilisateur s'il n'est pas connecté -->
+            @if (!Auth::user())
+                <h1>Veuillez vous enregistrer ou vous connecter</h1><div class="links">
+                    <button type="button" class="btn btn-primary btn-lg"><a href="{{ url('/register') }}">Register</a> </button>
+                    <button type="button" class="btn btn-primary btn-lg">  <a href="{{ route('login') }}">Login</a></button>
+                </div>      
+            @endif
+            @if (Auth::user())
+                
+
             {{-- <form action="{{ route('tests1.upload.post') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
@@ -84,112 +97,128 @@
 <br>
             <!-- aucun fichier envoyé, alors on affiche un map vide -->
             @if (empty(Session::get('filecontent')))
-
-
                 <div class="container">
                     <div class="row">
-                            <div class="col" id="map" style="background-color:darkseagreen">
-                                @include('map') {{--map.blade.php--}}
-                            </div>
-                            
-                            <div class="col">
-                                @include('statshtml') {{--map.blade.php--}}   
-                            </div>
-                    </div>
-                </div>
-
-            @endif
-
-            <!-- si fichier envoyé, alors on affiche le parcours et les graphs-->
-            @if ($filecontent = Session::get('filecontent') )
-            
-            <div class="container">
-                <div class="row">
                         <div class="col" id="map" style="background-color:darkseagreen">
                             @include('map') {{--map.blade.php--}}
                         </div>
                         
                         <div class="col">
-                            @include('statshtml') {{--map.blade.php--}}   
+                            @include('statshtml') {{--statshtml.blade.php--}}   
                         </div>
+                    </div>
                 </div>
-            </div>
-        
-
-                <script>
-                    afficheParcours("{{ $filecontent }}",true)
-                </script>
-
-                <br>
-                <br>
-
-                <!-- affiche les statistiques -->
-                <script type="application/javascript">
-                    //pas ici, dans afficheParcours, pas encore de focntion car ça marche pas
-                </script>
             @endif
 
+            <!-- si fichier envoyé, alors on affiche le parcours et les graphs-->
+            @if ($filecontent = Session::get('filecontent') )
+            <div class="container">
+                <div class="row">
+                    <div class="col" id="map" style="background-color:darkseagreen">
+                        @include('map') {{--map.blade.php--}}
+                    </div>
+                    
+                    <div class="col">
+                        @include('statshtml') {{--map.blade.php--}}   
+                    </div>
+                </div>
+            </div>
+                <!-- affiche le parcours -->
+                <script>afficheParcours("{{ $filecontent }}",true)</script>
+            @endif
+
+           
         </div>
     </div>
 </div>
 
 <!-- affiche les parcours utilisateur -->
 <div class="container">
-
-    <div class="row justify-content-start">
-    @if (isset($posts))
-        <br>
-        
-        <p style="background-color:blue"></p>
-        @foreach ($posts as $post)
-
-    
-            {{-- parcours nom, id image --}}
-            <div class="col-3">
+    <div class="row">
+        <div class="col"> <!-- première colone -->
             <br>
-                <div class="card" style="width: 14rem;" id="{{ $post->id}} btn">
-                    <div class="card-body">
-                        <h5 class="card-title">                     ID post {{ $post->id}}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">  Id createur {{ $post->cid}}</h6>
-                        <p class="card-text">                       Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam dolorum ullam iusto sunt, dicta quod consequatur sapiente vero ipsum. Voluptatibus?</p>
-                        <a href="#" class="card-link">
+            <h4> Mes parcours </h4>
+            
+            <div class="row justify-content-start">
+            @if (isset($posts))
+                <p style="background-color:blue"></p>
+                @foreach ($posts as $post)
+                    
+                
+            
+                    {{-- parcours nom, id image --}}
+                    <div class="col-3">
+                    
+                        <div class="card" style="width: 8rem;" id="{{ $post->id}} btn">
+                            <div class="card-body">
+                                <h5 class="card-title">                     Parcours {{ $post->id}}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">  Id createur {{ $post->cid}}</h6>
+{{--                                 <p class="card-text">                       Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam dolorum ullam iusto sunt, dicta quod consequatur sapiente vero ipsum. Voluptatibus?</p>
+ --}}                                <a href="#" class="card-link">
 
-                            <div id={{ $post->id}} style="background:darkcyan; padding-left: 50px; padding-top: 5px; padding-bottom: 5px; cursor: pointer;">Cliquer ici</div>
-                                <script>
-                                    var test = document.getElementById({{ $post->id}});
-                                    test.onclick = function() {
+                                    <div id={{ $post->id}} style="background:darkcyan; padding: 3px; cursor: pointer;"> Cliquer ici</div>
+                                        <script>
+                                            var test = document.getElementById({{ $post->id}});
+                                            test.onclick = function() {
 
-                                        $( "#item2").removeClass("active");
-                                        $( "#item1").addClass("active");
+                                                $( "#item2").removeClass("active");
+                                                $( "#item1").addClass("active");
 
-                                        if (typeof myChart !== 'undefined') {
-                                            window.myChart.destroy();
-                                        }
+                                                if (typeof myChart !== 'undefined') {
+                                                    window.myChart.destroy();
+                                                }
 
-                                        if (typeof eles !== 'undefined') {
-                                            var labels = new Array(100);
-                                            renderChart(eles, labels, "chart1");
-                                            $("#type-donne").text("Altitude");
-                                        } else {
-                                            $("#type-donne").text("Aucune donnée");
-                                        }
+                                                if (typeof eles !== 'undefined') {
+                                                    var labels = new Array(100);
+                                                    renderChart(eles, labels, "chart1");
+                                                    $("#type-donne").text("Altitude");
+                                                } else {
+                                                    $("#type-donne").text("Aucune donnée");
+                                                }
 
-                                        $("#type-donne").text("Altitude");
-                                        afficheParcours("{{ $post->data}}", false)
-                                        
-                                    }
-                            </script>
-                        </a>
+                                                $("#type-donne").text("Altitude");
+                                                afficheParcours("{{ $post->data}}", false);
+                                                myChart.update();
+                                                
+                                            }
+                                    </script>
+                                </a>
+                            </div>
+                        </div>
                     </div>
+
+                    {{-- aaa --}}
+                @endforeach 
                 </div>
             </div>
 
-            {{-- aaa --}}
-        @endforeach 
+            <div class="col">
+                <br>
+                <h4> Info sections </h4>
+                
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Distance</th>
+                        <th scope="col">Temps</th>
+                        <th scope="col">Vitesse moyenne</th>
+                        <th scope="col">Pente moyenne</th>
+                      </tr>
+                    </thead>
+
+                    <tbody id="sectionInfo">
+
+                    </tbody>
+
+                  </table>
+            </div>
         </div>
         
     @endif 
 </div>
+
+@endif
 </div>
 <br>
 </div>

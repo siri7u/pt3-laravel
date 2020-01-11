@@ -60,10 +60,12 @@ $(document).ready(function() {
         } */
 
         myChart.config.data = {
-
                 labels: labels,
                 datasets: [{
-                data: eles,
+                    data: eles,
+                    pointBackgroundColor: [],
+                pointBorderColor: [],
+                pointRadius: [],
             }]
         }
 
@@ -84,19 +86,21 @@ $(document).ready(function() {
         var labels = new Array(Object.keys(eles).length);
         console.log(labels.length);
 
-        /* var len = Object.keys(eles).length;
+         var len = Object.keys(eles).length;
 
         rand = [];
 
         for (let i = 0; i < len; i++) {
-            rand.push(Math.floor(Math.random() * 50) + 10);
-        }  */
+            rand.push(Math.floor(Math.random() *3));
+        }  
 
         myChart.config.data = {
-
                 labels: labels,
                 datasets: [{
-                data: eles,
+                data: rand,
+                pointBackgroundColor: [],
+                pointBorderColor: [],
+                pointRadius: [],
             }]
         }
 
@@ -112,7 +116,11 @@ $(document).ready(function() {
         /* $( "#item1").removeClass("active");
         $( "#item2").removeClass("active"); */
 
+        //efface toutes les sections selectionnées
         clearSections();
+        //vide la balise html
+        $("#sectionInfo").empty();
+
         
 
         //window.myChart.destroy();
