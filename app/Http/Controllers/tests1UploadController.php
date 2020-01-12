@@ -66,6 +66,18 @@ class tests1UploadController extends Controller
             //->with('posts',$posts);
     }
 
+    public function create(){
+        return view('tests1');
+
+    }
+
+    public function store(Request $request){
+        
+
+    }
+
+
+
 
 
 }

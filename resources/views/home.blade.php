@@ -2,14 +2,17 @@
 
 <head>
     <!--<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="styles/bootstrap.min.css
-    <script type="text/javascript" src="scripts/bootstrap-filestyle.min.js"></script>
-    ">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script> -->
+    
+{{--         <link rel="stylesheet" href="styles/bootstrap.min.css">
+    <script type="text/javascript" src="scripts/bootstrap-filestyle.min.js"></script> --}}
+    
 
-    -->
+   
     <title>PT3</title>
-    <script src="{{ asset('js/read.js')}}"></script>
+    <script src="{{ asset('js/afficheStats.js')}}"></script>
+    <script src="{{ asset('js/afficheParcours.js')}}"></script>
+{{--     <script src="{{ asset('js/afficheMap.js')}}"></script> --}}
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://code.iconify.design/1/1.0.3/iconify.min.js"></script>
@@ -21,186 +24,253 @@
 
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
 
-    <style>
-        #map {
-            height: 400px;
-        }
-    </style>
+
 </head>
 
 @section('content')
+
+
+
+
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
 
-                <div class="card-body">
-                    @if (session('status'))
-                    <div class="alert alert-success" role="alert">
-                        {{ session('status') }}
-                    </div>
-                    @endif You are logged in! {{ Auth::user()->name }}
-                </div>
-            </div>
-        </div>
-    </div>
-    <br>
-    <div class="container">
+    <div class="panel panel-primary">
 
-        <!--
-    <div class="col-sm">
-        <div class="card border-primary mb-3" style="max-width: 40rem; min-height: 100%; height: 100%;">
-            <div class="card-header">
+        <div class="panel-body">
 
-                <label>Charger un fichier </label>
-                <div class="bootstrap-filestyle input-group">
-                    <input type="file" id="input04" tabindex="-1" style="position: absolute; clip: rect(0px, 0px, 0px, 0px);" onchange="readFile(this)">
-
-                    <input type="text" class="form-control " placeholder="No file" style="border-top-left-radius: 0.25rem; border-bottom-left-radius: 0.25rem;" id="placegolder">
-
-                    <span class="group-span-filestyle input-group-btn" tabindex="0">
-                        <label for="input04" style="margin-bottom: 0;" class="btn btn-secondary ">
-                                <span class="iconify" data-icon="oi-folder"> </span>
-                    <span class="buttonText"> Charger un fichier</span>
-                    </label>
-                    </span>
-                </div>
+            @if ($message = Session::get('success'))
+            <div class="alert alert-success alert-block">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <strong>{{ $message }}</strong>
             </div>
 
-            <div class="card-body">
-                <h4 class="card-title">
-                    <div class="temp">Veuillez charger un fichier</div>
-                    <br>
-                    <div class="boxalert"></div>
-                </h4>
-                <p class="card-text ">
-                    <div class="overflow-auto" style="margin-left:auto; margin-right:auto; height: 300px;">
-                        <div class="table-wrapper-scroll-y my-custom-scrollbar">
-                            <table class="table table-bordered table-striped mb-0" id="table">
-                                <tbody id="logs"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </p>
+            @endif @if (count($errors) > 0)
+            <div class="alert alert-danger">
+                <strong>Attention!</strong> Il y a un problème avec votre fichier.
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
             </div>
-        </div>
-    </div>-->
+            @endif
+            <p></p>
 
-        <div class="row">
-            <!------------>
-            <div class="col-sm-8">
-                <div class="card border-primary">
-                    <div class="card-header">
-
-                        <label>Charger un fichier </label>
-                        <div class="bootstrap-filestyle input-group">
-                            <input type="file" id="input04" tabindex="-1" style="position: absolute; clip: rect(0px, 0px, 0px, 0px);" onchange="readFile(this)">
-
-                            <input type="text" class="form-control " placeholder="No file" style="border-top-left-radius: 0.25rem; border-bottom-left-radius: 0.25rem;" id="placegolder">
-
-                            <span class="group-span-filestyle input-group-btn" tabindex="0">
-                                <label for="input04" style="margin-bottom: 0;" class="btn btn-secondary ">
-                                        <span class="iconify" data-icon="oi-folder"> </span>
-                            <span class="buttonText"> Charger un fichier</span>
-                            </label>
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="card-body">
-                        <h4 class="card-title"></h4>
-                        <p class="card-text ">
-                            <!--Affiche la carte-->
-
-                            <div id="map" class></div>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="card border-primary" style=" height:100%">
-                    <div class="card-body">
-                        <h4 class="card-title">
-                    <div class="temp">Veuillez charger un fichier</div>
-                    <br>
-                    <div class="boxalert"></div>
-                </h4>
-                        <p class="card-text ">
-                            <div class="overflow-auto" style="margin-left:auto; margin-right:auto; height: 300px;">
-                                <div class="table-wrapper-scroll-y my-custom-scrollbar">
-                                    <table class="table table-bordered table-striped mb-0" id="table">
-                                        <tbody id="logs"></tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <!--    ---------->
-         
-
-
-
-
-            <script type="application/javascript">
-
-                console.log("salut");
-                var map = L.map('map').setView([0, 0], 1);
-                L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=CZhoDNPVBHSRiPKPQGHH', {
-                    tileSize: 512,
-                    zoomOffset: -1,
-                    minZoom: 1,
-                    //attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">© MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a>',
-                    crossOrigin: true
-                }).addTo(map);
-            
-                </script>
-
-
-
-        </div>
-
-    </div>
-
-    <br>
-
-    <div class="container">
-
-        <div class="card border-primary mb-3">
-            <div class="card-header">
-                <h4 class="card-title">Altitude</h4>
+            <!-- on notifie l'utilisateur s'il n'est pas connecté -->
+            @if (!Auth::user())
+                <h1>Veuillez vous enregistrer ou vous connecter</h1><div class="links">
+                    <button type="button" class="btn btn-primary btn-lg"><a href="{{ url('/register') }}">Register</a> </button>
+                    <button type="button" class="btn btn-primary btn-lg">  <a href="{{ route('login') }}">Login</a></button>
+                </div>      
+            @endif
+            @if (Auth::user())
+                
+<br>
+            <!-- aucun fichier envoyé, alors on affiche un map vide -->
+            @if (empty(Session::get('filecontent')))
                 <div class="container">
-                    <canvas id="chart1"></canvas>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-sm">
-                <div class="card border-primary mb-3" style="max-width: 40rem; min-height: 100%; height: 100%;">
-                    <div class="card-header">
-                        <h4 class="card-title"></h4>
-                        <div class="container">
-                            <canvas id="chart2"></canvas>
+                    <div class="row">
+                        <div class="col" id="map" style="background-color:darkseagreen">
+                            @include('map') {{--map.blade.php--}}
+                        </div>
+                        
+                        <div class="col">
+                            @include('statshtml') {{--statshtml.blade.php--}}   
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-sm">
-                <div class="card border-primary mb-3" style="max-width: 40rem; min-height: 100%; height: 100%;">
-                    <div class="card-header">
-                        <h4 class="card-title"></h4>
-                        <div class="container">
-                            <canvas id="chart2"></canvas>
-                        </div>
+            @endif
+
+            <!-- si fichier envoyé, alors on affiche le parcours et les graphs-->
+            @if ($filecontent = Session::get('filecontent') )
+            <div class="container">
+                <div class="row">
+                    <div class="col" id="map" style="background-color:darkseagreen">
+                        @include('map') {{--map.blade.php--}}
+                    </div>
+                    
+                    <div class="col">
+                        @include('statshtml') {{--map.blade.php--}}   
                     </div>
                 </div>
             </div>
-        </div>
+                <!-- affiche le parcours -->
+                <script>afficheParcours("{{ $filecontent }}",true)</script>
+            @endif
 
+           
+        </div>
     </div>
+</div>
+
+<!-- affiche les parcours utilisateur -->
+<div class="container">
+    <div class="row">
+        <div class="col"> <!-- première colone -->
+            <br>
+            <h4> Mes parcours </h4>
+            
+            <div class="row justify-content-start">
+            @if (isset($posts))
+                <p style="background-color:blue"></p>
+                @foreach ($posts as $post)
+                    
+                
+            
+                    {{-- parcours nom, id image --}}
+                    <div class="col-3">
+                    
+                        <div class="card" style="width: 8rem;" id="{{ $post->id}} btn">
+                            <div class="card-body">
+                                <h5 class="card-title">                     Parcours {{ $post->id}}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">  Id createur {{ $post->cid}}</h6>
+{{--                                 <p class="card-text">                       Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam dolorum ullam iusto sunt, dicta quod consequatur sapiente vero ipsum. Voluptatibus?</p>
+ --}}                                <a href="#" class="card-link">
+
+                                    <div id={{ $post->id}} style="background:darkcyan; padding: 3px; cursor: pointer;"> Cliquer ici</div>
+                                        <script>
+                                            var test = document.getElementById({{ $post->id}});
+                                            test.onclick = function() {
+
+                                                $( "#item2").removeClass("active");
+                                                $( "#item1").addClass("active");
+
+                                                if (typeof myChart !== 'undefined') {
+                                                    window.myChart.destroy();
+                                                }
+
+                                                if (typeof eles !== 'undefined') {
+                                                    var labels = new Array(100);
+                                                    renderChart(eles, labels, "chart1");
+                                                    $("#type-donne").text("Altitude");
+                                                } else {
+                                                    $("#type-donne").text("Aucune donnée");
+                                                }
+
+                                                $("#type-donne").text("Altitude");
+                                                afficheParcours("{{ $post->data}}", false);
+                                                myChart.update();
+                                                
+                                            }
+                                    </script>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- aaa --}}
+                @endforeach 
+                </div>
+            </div>
+
+            <div class="col">
+                <br>
+                <h4> Info sections </h4>
+                
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Distance</th>
+                        <th scope="col">Temps</th>
+                        <th scope="col">Vitesse moyenne</th>
+                        <th scope="col">Pente moyenne</th>
+                      </tr>
+                    </thead>
+
+                    <tbody id="sectionInfo">
+
+                    </tbody>
+
+                  </table>
+            </div>
+        </div>
+        
+    @endif 
+</div>
+
+<br>
+<br>
+<h4> Ajouter un amis </h4>
+
+{!! Form::open(array( 'route'=>'home.upload.post')) !!} 
+    <div class="form-group">
+        {!! Form::text('pid', 'ID Amis', ['class' => 'form-control', 'placeholder' => 'ID Ami', 'name' => 'ami']) !!}
+    </div>
+    {!! Form::submit('Sumbit', ['class' => 'btn btn-primary']) !!}
+
+{!! Form::close() !!}
+<br>
+
+
+
+<br>
+
+
+
+<h4> Parcours de mes amis </h4>
+
+
+<div class="row justify-content-start">
+    @if (isset($listeamis))
+        <p style="background-color:blue"></p>
+        @foreach ($listeamis as $post)
+            
+        
+    
+            {{-- parcours nom, id image --}}
+            <div class="col-3">
+            
+                <div class="card" style="width;" id="{{ $post->id}} btn">
+                    <div class="card-body">
+                        <h5 class="card-title">                     Parcours {{ $post->id}}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">  Id createur {{ $post->cid}}</h6>
+{{--                                 <p class="card-text">                       Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam dolorum ullam iusto sunt, dicta quod consequatur sapiente vero ipsum. Voluptatibus?</p>
+--}}                                <a href="#" class="card-link">
+
+                            <div id={{ $post->id}} style="background:darkcyan; padding: 3px; cursor: pointer;"> Cliquer ici</div>
+                                <script>
+                                    var test = document.getElementById({{ $post->id}});
+                                    test.onclick = function() {
+
+                                        $( "#item2").removeClass("active");
+                                        $( "#item1").addClass("active");
+
+                                        if (typeof myChart !== 'undefined') {
+                                            window.myChart.destroy();
+                                        }
+
+                                        if (typeof eles !== 'undefined') {
+                                            var labels = new Array(100);
+                                            renderChart(eles, labels, "chart1");
+                                            $("#type-donne").text("Altitude");
+                                        } else {
+                                            $("#type-donne").text("Aucune donnée");
+                                        }
+
+                                        $("#type-donne").text("Altitude");
+                                        afficheParcours("{{ $post->data}}", false);
+                                        myChart.update();
+                                        
+                                    }
+                            </script>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            {{-- aaa --}}
+        @endforeach 
+        </div>
+    </div>
+    @endif
+
+
+@endif
+</div>
+<br>
+
+
 </div>
 
 @endsection

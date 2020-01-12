@@ -13,15 +13,8 @@
         <link href="{{ asset('styles/bootstrap.min.css') }}" rel="stylesheet">
 
         <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
-            }
-
+            
+			body { background-color:#E5D394;}
             .full-height {
                 height: 100vh;
             }
@@ -50,23 +43,131 @@
                 font-size: 84px;
             }
 
-            .links > a {
+			.header {
+			overflow: hidden;
+			background-color: #FDFBFB;
+			width:100%;
+			}
+			.header a {
+			float: left;
+			color: #636b6f;;
+			text-align: center;
+			  padding: 12px;
+			  text-decoration: none;
+			  font-size: 18px;
+			  line-height: 25px;
+			  border-radius: 4px;
+}
+            .m-b-md {
+                margin-bottom: 30px;
+			}
+			.btn-default {
+				background-color: #fff;
+				border-color: #dfdfe8;
+            }
+			.btn {
+				align-items: left;
+				border: 1px solid transparent;
+				border-radius: 4px;
+				cursor: pointer;
+				display: inline-flex;
+				-webkit-box-orient: horizontal;
+				-webkit-box-direction: normal;
+				transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
+				user-select: none;
+				vertical-align: middle;
+				white-space: nowrap;
+				will-change: background-color, color, border-color;
+			}
+			a.btn {
+				color: #292827;
+				text-decoration: none;
+				font-family: Impact, "Arial Black", Arial, Verdana, sans-serif;
+				font-size: 30px;
+			}
+			.header-content nav {
+				-webkit-box-flex: 1;
+				-ms-flex: 1 1;
+				flex: 1 1;
+				text-align: right;
+			}
+			h2 {
+				font-family: roboto;
+			 font-size:55px;
+			
+			
+			}
+			#im1,#im2 {
+				display : inline-block;
+			}
+			#im1 {
+				float:left
+				height:250;
+				width:250;
+				
+			}
+			.left { float:left; 
+			position:absolute;
+			margin:0 100px 0 20px; 
+			margin-left:0px;
+			
+			}
+			.right { float:right; 
+			margin-left:780px;
+			
+			
+			}
+			.links > a {
+				float: left;
                 color: #636b6f;
-                padding: 0 25px;
+                padding: 25 0px;
                 font-size: 13px;
                 font-weight: 600;
                 letter-spacing: .1rem;
                 text-decoration: none;
                 text-transform: uppercase;
             }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
+			footer {
+			background-color:#292827;
+			position: absolute;
+			bottom:0;
+			width:100%;
+			
+		
+			padding-top:50px;
+			padding-bottom:50px;
+			
+			padding:50px;
+			height:50px;}
+			p {	margin-left:580px;
+				margin-bottom : 100px;
+				font-size :53px;
+				font-family: roboto;
+				font-color:#CECBC0;
+			}
+			
+}
         </style>
     </head>
+	<header class="header">
+		
+			<div class="header">
+				<div class="header-right">
+						<a class="active" href="#home">Page d'acceuil</a>
+						
+							<a href="{{ url('/register') }}">S'enregistrer</a>
+					
+
+						<a href="{{ route('login') }}">Se connecter </a>
+										
+				</div>
+</div>
+			
+			
+	
+	</header>
     <body>
-        <div class="flex-center position-ref full-height">
+        
             <!--@if (Route::has('login'))
                 <div class="top-right links">
                     @auth
@@ -81,33 +182,45 @@
                 </div>
             @endif-->
 
-            <div class="content">
-                <div class="title m-b-md">
+            <div class="main container">
+                <h2 class="text-center">
                     Bienvenue
-                </div>
+                </h2>
+				<div class="main-content row">
+					<div class="col-md-5 col-md-offset-1">
+						<div class="text-left">
+							<img class="left" src="{{ asset('img/sil.png')}}" height="418" width="350" style="float:left;margin:0 10px 0 20px;" ></img> 
+						</div>
+						
+						<p></p>
+					</div>
+				</div>
+				<p style="color:#716F6F">Profitez de notre application de partage des parcours</p>
+			</div>	
 
-                <div class="links">
-                    <a href="https://laravel.com/docs">Comment ça marche ?</a>
-                </div>
+                
                 <br><br>
                 
-                <div class="links">
-                    <button type="button" class="btn btn-primary btn-lg"> 
-                        <a href="{{ url('/register') }}">Register</a> 
-                    </button>
-
-                    <button type="button" class="btn btn-primary btn-lg">  <a href="{{ route('login') }}">Login</a></button>
-                </div>
+               
 
                 <br><br>
-
-                <div class="links fixed-bottom">
-                    <a href="https://laravel.com/docs">AZZOUZ</a>
-                    <a href="https://laracasts.com">CHAHIDI</a>
-                    <a href="https://laravel-news.com">SIRI</a>
-                    <br><br>
-                </div>
+				<footer class="footer">
+					<div class="links">
+                    <a href="https://laravel.com/docs">Comment ça marche ?</a>
+					
+					</div>
+					<div class="text-right">
+						<img class="right" src="{{ asset('img/logo.png')}}" height="45" width="300" style="float:left;"></img>
+					</div>	
+						
+							
+								
+							
+						
+				
+				</footer>
+               
             </div>
-        </div>
+        
     </body>
 </html>

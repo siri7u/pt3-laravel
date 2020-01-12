@@ -1,7 +1,7 @@
 
 
 <div style="float:right">
-        <form action="{{ route('tests1.upload.post') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('home.upload.post') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <input type="file" name="file" id="input04" tabindex="-1" style="position: absolute; clip: rect(0px, 0px, 0px, 0px);">
 

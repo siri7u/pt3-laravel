@@ -23,7 +23,6 @@ Route::get('tests1', 'tests1UploadController@tests1Upload')->name('tests1.upload
 Route::post('tests1', 'tests1UploadController@tests1UploadPost')->name('tests1.upload.post');
 
 
-
 Route::get('/tests2', function () {
     return view('tests2');
 });
@@ -35,6 +34,8 @@ Route::get('user/{id}', function ($id) {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::post('/home', 'HomeController@uploadPost')->name('home.upload.post');
+
 
 
 

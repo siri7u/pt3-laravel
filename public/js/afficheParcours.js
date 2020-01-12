@@ -16,8 +16,6 @@ function afficheParcours(fichier, charger) {
         $("#chart1").empty();
     }
 
-
-
     //On efface tous les layers existants
     map.eachLayer(function(layer) {
         if (layer instanceof L.Polyline || layer instanceof L.Marker) {
